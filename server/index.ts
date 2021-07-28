@@ -1,29 +1,12 @@
-// server/index.js
+/**
+ * Required External Modules
+ */
 
-// const express = require("express");
-
-// const PORT = process.env.PORT || 3001;
-
-// const app = express();
-
-// Have Node serve the files for our built React app
-// app.use(express.static(path.resolve(__dirname, "../client/build")));
-
-// app.get("/api", (req, res) => {
-//   res.json({ message: "Hello from server!" });
-// });
-
-// All other GET requests not handled before will return our React app
-// app.get("*", (req, res) => {
-//   res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
-// });
-
-// app.listen(PORT, () => {
-//   console.log(`Server listening on ${PORT}`);
-// });
-
-import dotenv from "dotenv";
+import * as dotenv from "dotenv";
 import express from "express";
+import cors from "cors";
+import helmet from "helmet";
+import { gridRouter } from "./grid/grid.router";
 
 // load the environment variables from the .env file
 dotenv.config({
@@ -31,17 +14,36 @@ dotenv.config({
 });
 
 /**
- * Express server application class.
- * @description Will later contain the routing system.
+ * App Variables
  */
-class Server {
-  public app = express();
+
+if (!process.env.PORT) {
+  process.exit(1);
 }
 
-// initialize server app
-const server = new Server();
+const PORT: number = parseInt(process.env.PORT as string, 10);
 
-// make server listen on some port
-((port = process.env.APP_PORT || 5000) => {
-  server.app.listen(port, () => console.log(`> Listening on port ${port}`));
-})();
+const app = express();
+
+/**
+ *  App Configuration
+ */
+
+app.use(helmet());
+app.use(cors());
+app.use(express.json());
+app.use("/api/grid", gridRouter);
+
+// Heroku config
+// app.use(express.static(path.resolve(__dirname, "../client/build")));
+
+// All other GET requests not handled before will return our React app
+// app.get("*", (req, res) => {
+//   res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
+// });
+
+/**
+ * Server Activation
+ */
+
+app.listen(PORT, () => console.log(`> Listening on port ${PORT}`));

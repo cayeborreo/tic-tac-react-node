@@ -4,7 +4,7 @@
   "description": "Server for a tic-tac-toe React app",
   "main": "index.js",
   "scripts": {
-    "start": "node server/index.js",
+    "dev": "nodemon server/index.ts",
     "build": "cd client && npm install && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -15,6 +15,14 @@
   "author": "caye.codes",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^10.0.0",
     "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.13",
+    "@types/node": "^16.4.4",
+    "nodemon": "^2.0.12",
+    "ts-node": "^10.1.0",
+    "typescript": "^4.3.5"
   }
 }

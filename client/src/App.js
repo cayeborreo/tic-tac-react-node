@@ -6,10 +6,13 @@ function App() {
   const [data, setData] = useState(null);
 
   const fetchData = async () => {
-    const response = await fetch("/api");
+    // console.log(process.env.REACT_APP_BASE_API_URL);
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_API_URL}/api/grid`
+    );
     const json = await response.json();
-    console.log(json?.message);
-    setData(json?.message);
+    console.log(json);
+    // setData(json?.message);
   };
 
   useEffect(() => {

@@ -2,11 +2,16 @@
   "name": "tic-tac-react-node",
   "version": "1.0.0",
   "description": "Server for a tic-tac-toe React app",
-  "main": "index.js",
+  "main": "server/index.js",
   "scripts": {
-    "dev": "ts-node-dev --respawn --pretty --transpile-only server/index.ts",
-    "build": "cd client && npm install && npm run build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start-client": "react-scripts start",
+    "postinstall": "tsc",
+    "build": "INLINE_RUNTIME_CHUNK=false react-scripts build",
+    "heroku-postbuild": "cd client && npm install && INLINE_RUNTIME_CHUNK=false npm run build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "start": "node server/index.js",
+    "dev": "ts-node-dev --respawn --pretty --transpile-only server/index.ts"
   },
   "engines": {
     "node": "16.1.0"
@@ -18,7 +23,9 @@
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "helmet": "^4.6.0"
+    "helmet": "^4.6.0",
+    "ts-node": "^10.1.0",
+    "typescript": "^4.3.5"
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",

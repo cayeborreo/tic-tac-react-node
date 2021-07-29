@@ -103,7 +103,7 @@ const App = () => {
             >
               {game?.currentTurn}
             </span>
-            's Turn
+            ’s Turn
           </Fragment>
         );
       case "X_WINS":
@@ -131,7 +131,10 @@ const App = () => {
               TIC-TAC-TOE
             </h1>
           </header>
-          <Grid grid={grid} handleClick={handleClick} />
+          <Grid
+            grid={grid}
+            handleClick={game?.status === "ONGOING" ? handleClick : null}
+          />
           <center>
             <p className="is-size-3 has-text-weight-bold has-text-grey-lighter">
               <GameStatus />

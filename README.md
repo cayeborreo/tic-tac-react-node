@@ -46,3 +46,4 @@ node server/index.js
 ## ⚠️ Unhandled Cases
 
 1. This app could not identify the earliest occasion of a draw. It just assumes it is if there isn't a winner yet by Turn 8.
+2. Clicking too fast actually breaks the events cascade (double-X can occur). I should probably have put a "LOADING" game status.

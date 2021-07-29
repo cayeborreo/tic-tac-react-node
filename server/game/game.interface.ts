@@ -1,20 +1,8 @@
-enum Turn {
-  X,
-  O,
-}
-
-enum Status {
-  ONGOING,
-  DRAW,
-  X_WINS,
-  O_WINS,
-}
-
 export interface Game {
   number: number;
-  currentTurn: Turn;
+  currentTurn: "X" | "O";
   turnNumber: number;
-  status: Status;
+  status: "ONGOING" | "DRAW" | "X_WINS" | "O_WINS";
   xWins: number;
   oWins: number;
 }

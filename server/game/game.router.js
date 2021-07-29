@@ -58,31 +58,30 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.gridRouter = void 0;
+exports.gameRouter = void 0;
 /**
  * Required External Modules and Interfaces
  */
 var express_1 = __importDefault(require("express"));
-var GridService = __importStar(require("./grid.service"));
-//  import { BaseItem, Item } from "./item.interface";
+var GameService = __importStar(require("./game.service"));
 /**
  * Router Definition
  */
-exports.gridRouter = express_1.default.Router();
+exports.gameRouter = express_1.default.Router();
 /**
  * Controller Definitions
  */
-// GET grid
-exports.gridRouter.get("/", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var grid, e_1;
+// GET game
+exports.gameRouter.get("/", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var game, e_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, GridService.getGrid()];
+                return [4 /*yield*/, GameService.getGame()];
             case 1:
-                grid = _a.sent();
-                res.status(200).send(grid);
+                game = _a.sent();
+                res.status(200).send(game);
                 return [3 /*break*/, 3];
             case 2:
                 e_1 = _a.sent();
@@ -92,91 +91,22 @@ exports.gridRouter.get("/", function (req, res) { return __awaiter(void 0, void 
         }
     });
 }); });
-// GET grid/:id
-exports.gridRouter.get("/:id", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, slot, e_2;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                id = parseInt(req.params.id);
-                _a.label = 1;
-            case 1:
-                _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, GridService.getGridSlot(id)];
-            case 2:
-                slot = _a.sent();
-                res.status(200).send(slot);
-                return [3 /*break*/, 4];
-            case 3:
-                e_2 = _a.sent();
-                res.status(500).send(e_2.message);
-                return [3 /*break*/, 4];
-            case 4: return [2 /*return*/];
-        }
-    });
-}); });
-// PUT grid/:id
-exports.gridRouter.put("/:id", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, newGridSlot, updatedGrid, e_3;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                id = parseInt(req.params.id);
-                newGridSlot = req.body;
-                _a.label = 1;
-            case 1:
-                _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, GridService.updateGridSlot(id, newGridSlot)];
-            case 2:
-                updatedGrid = _a.sent();
-                res.status(200).json(updatedGrid);
-                return [3 /*break*/, 4];
-            case 3:
-                e_3 = _a.sent();
-                res.status(500).send(e_3.message);
-                return [3 /*break*/, 4];
-            case 4: return [2 /*return*/];
-        }
-    });
-}); });
-// PUT grid
-exports.gridRouter.put("/", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var newGrid, updatedGrid, e_4;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                newGrid = req.body;
-                _a.label = 1;
-            case 1:
-                _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, GridService.updateGrid(newGrid)];
-            case 2:
-                updatedGrid = _a.sent();
-                res.status(200).json(updatedGrid);
-                return [3 /*break*/, 4];
-            case 3:
-                e_4 = _a.sent();
-                res.status(500).send(e_4.message);
-                return [3 /*break*/, 4];
-            case 4: return [2 /*return*/];
-        }
-    });
-}); });
-// DELETE grid
-exports.gridRouter.delete("/", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var updatedGrid, e_5;
+// PUT game
+exports.gameRouter.put("/", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var newGameInfo, updatedGame, e_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, GridService.clearGrid()];
+                newGameInfo = req.body;
+                return [4 /*yield*/, GameService.updateGame(newGameInfo)];
             case 1:
-                updatedGrid = _a.sent();
-                res.status(200).json(updatedGrid);
+                updatedGame = _a.sent();
+                res.status(201).json(updatedGame);
                 return [3 /*break*/, 3];
             case 2:
-                e_5 = _a.sent();
-                res.status(500).send(e_5.message);
+                e_2 = _a.sent();
+                res.status(500).send(e_2.message);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }

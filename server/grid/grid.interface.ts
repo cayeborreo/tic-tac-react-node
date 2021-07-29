@@ -4,8 +4,7 @@ enum Player {
 }
 
 export interface GridSlot {
-  row: number;
-  column: number;
+  id: number;
   occupant: Player | null;
   winningSlot: boolean;
 }

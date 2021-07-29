@@ -28,8 +28,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var dotenv = __importStar(require("dotenv"));
 var path = __importStar(require("path"));
 var express_1 = __importDefault(require("express"));
+var cors_1 = __importDefault(require("cors"));
 var helmet_1 = __importDefault(require("helmet"));
 var grid_router_1 = require("./grid/grid.router");
+var game_router_1 = require("./game/game.router");
 // load the environment variables from the .env file
 dotenv.config({
     path: ".env",
@@ -45,24 +47,27 @@ var app = express_1.default();
 /**
  *  App Configuration
  */
-// Heroku config
-// const buildPath = path.join(__dirname, "client", "build");
+// Path config and for Heroku to work too
 app.use(express_1.default.static(path.join(__dirname, "client", "build")));
-app.use(express_1.default.static(path.join(__dirname, "client", "build", "static")));
 app.use(helmet_1.default());
-// app.use(cors());
+app.use(cors_1.default());
 app.use(express_1.default.json());
 app.use("/api/grid", grid_router_1.gridRouter);
-// app.use(express.static(path.resolve(__dirname, "../client/build/index.html")));
-// app.use(express.static("client/public"));
-// handle `/` request
+app.use("/api/game", game_router_1.gameRouter);
+// Handle `/` request — serve index
 app.get("/", function (req, res) {
-    res.sendFile(path.resolve(__dirname, "/client/build/index.html"));
-});
-// All other GET requests not handled before will return our React app
-app.get("*", function (req, res) {
-    // console.log(req);
     res.sendFile(path.resolve(__dirname, "../client/build/index.html"));
+});
+// All other GET requests not handled will either...
+app.get("*", function (req, res) {
+    if (req.path.includes("client")) {
+        // return the client static files, or...
+        res.sendFile(path.join(__dirname, "../", req.path));
+    }
+    else {
+        // ...serve the React app
+        res.sendFile(path.resolve(__dirname, "../client/build/index.html"));
+    }
 });
 /**
  * Server Activation

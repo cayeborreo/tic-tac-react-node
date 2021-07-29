@@ -7,78 +7,106 @@ import { Grid, GridSlot } from "./grid.interface";
  * In-Memory Store
  */
 
-let grid: Grid = {
+let initialValues: Grid = {
   1: {
-    row: 1,
-    column: 1,
+    id: 1,
     occupant: null,
     winningSlot: false,
   },
   2: {
-    row: 1,
-    column: 2,
+    id: 2,
     occupant: null,
     winningSlot: false,
   },
   3: {
-    row: 1,
-    column: 3,
+    id: 3,
     occupant: null,
     winningSlot: false,
   },
   4: {
-    row: 2,
-    column: 1,
+    id: 4,
     occupant: null,
     winningSlot: false,
   },
   5: {
-    row: 2,
-    column: 2,
+    id: 5,
     occupant: null,
     winningSlot: false,
   },
   6: {
-    row: 2,
-    column: 3,
+    id: 6,
     occupant: null,
     winningSlot: false,
   },
   7: {
-    row: 3,
-    column: 1,
+    id: 7,
     occupant: null,
     winningSlot: false,
   },
   8: {
-    row: 3,
-    column: 2,
+    id: 8,
     occupant: null,
     winningSlot: false,
   },
   9: {
-    row: 3,
-    column: 3,
+    id: 9,
     occupant: null,
     winningSlot: false,
   },
 };
 
+let grid: Grid = { ...initialValues };
+
 /**
  * Service Methods
  */
 
-export const getGrid = async (): Promise<GridSlot[]> => Object.values(grid);
+const sortObject = (object: Grid) => {
+  return Object.keys(object)
+    .sort()
+    .reduce((result: Grid, key: string) => {
+      result[parseInt(key)] = object[parseInt(key)];
+      return result;
+    }, {} as Grid);
+};
 
-export const updateGrid = async (
+export const getGrid = async (): Promise<GridSlot[]> => {
+  grid = sortObject(grid);
+  return Object.values(grid);
+};
+
+export const getGridSlot = async (id: number): Promise<GridSlot> => {
+  let slot = grid[id];
+  return slot;
+};
+
+export const updateGridSlot = async (
   slot: number,
   newGridSlot: GridSlot
-): Promise<GridSlot[] | string> => {
+): Promise<GridSlot[] | []> => {
   if (!grid[slot]) {
-    return "No slot found. Check if your slot number is within range 1-9.";
+    return [];
   }
 
-  const updatedGridSlot = { slot: { ...grid[slot], ...newGridSlot } };
+  let updatedGridSlot = { [slot]: { ...grid[slot], ...newGridSlot } };
 
-  return Object.values(updatedGridSlot);
+  grid = sortObject({ ...grid, ...updatedGridSlot });
+
+  return Object.values(grid);
+};
+
+export const updateGrid = async (newGrid: GridSlot[]): Promise<GridSlot[]> => {
+  let gridObject: Grid = {};
+  newGrid.forEach((slot, index) => {
+    gridObject[index + 1] = {
+      ...slot,
+    };
+  });
+  grid = newGrid;
+  return Object.values(grid);
+};
+
+export const clearGrid = async (): Promise<GridSlot[]> => {
+  grid = initialValues;
+  return Object.values(grid);
 };

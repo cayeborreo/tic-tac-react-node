@@ -26,16 +26,49 @@ gridRouter.get("/", async (req: Request, res: Response) => {
   }
 });
 
+// GET grid/:id
+gridRouter.get("/:id", async (req: Request, res: Response) => {
+  const id: number = parseInt(req.params.id);
+  try {
+    const slot: GridSlot = await GridService.getGridSlot(id);
+    res.status(200).send(slot);
+  } catch (e) {
+    res.status(500).send(e.message);
+  }
+});
+
 // PUT grid/:id
 gridRouter.put("/:id", async (req: Request, res: Response) => {
-  const id: number = parseInt(req.params.id, 10);
+  const id: number = parseInt(req.params.id);
+  const newGridSlot = req.body;
 
   try {
-    const newGridSlot: GridSlot = req.body;
+    const updatedGrid = await GridService.updateGridSlot(id, newGridSlot);
 
-    const updatedItem = await GridService.updateGrid(id, newGridSlot);
+    res.status(200).json(updatedGrid);
+  } catch (e) {
+    res.status(500).send(e.message);
+  }
+});
 
-    res.status(201).json(updatedItem);
+// PUT grid
+gridRouter.put("/", async (req: Request, res: Response) => {
+  const newGrid = req.body;
+  try {
+    const updatedGrid = await GridService.updateGrid(newGrid);
+
+    res.status(200).json(updatedGrid);
+  } catch (e) {
+    res.status(500).send(e.message);
+  }
+});
+
+// DELETE grid
+gridRouter.delete("/", async (req: Request, res: Response) => {
+  try {
+    const updatedGrid = await GridService.clearGrid();
+
+    res.status(200).json(updatedGrid);
   } catch (e) {
     res.status(500).send(e.message);
   }

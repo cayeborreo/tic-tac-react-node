@@ -47,113 +47,31 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.clearGrid = exports.updateGrid = exports.updateGridSlot = exports.getGridSlot = exports.getGrid = void 0;
+exports.updateGame = exports.getGame = void 0;
 /**
  * In-Memory Store
  */
-var initialValues = {
-    1: {
-        id: 1,
-        occupant: null,
-        winningSlot: false,
-    },
-    2: {
-        id: 2,
-        occupant: null,
-        winningSlot: false,
-    },
-    3: {
-        id: 3,
-        occupant: null,
-        winningSlot: false,
-    },
-    4: {
-        id: 4,
-        occupant: null,
-        winningSlot: false,
-    },
-    5: {
-        id: 5,
-        occupant: null,
-        winningSlot: false,
-    },
-    6: {
-        id: 6,
-        occupant: null,
-        winningSlot: false,
-    },
-    7: {
-        id: 7,
-        occupant: null,
-        winningSlot: false,
-    },
-    8: {
-        id: 8,
-        occupant: null,
-        winningSlot: false,
-    },
-    9: {
-        id: 9,
-        occupant: null,
-        winningSlot: false,
-    },
+var game = {
+    number: 1,
+    currentTurn: "X",
+    turnNumber: 1,
+    status: "ONGOING",
+    xWins: 0,
+    oWins: 0,
 };
-var grid = __assign({}, initialValues);
 /**
  * Service Methods
  */
-var sortObject = function (object) {
-    return Object.keys(object)
-        .sort()
-        .reduce(function (result, key) {
-        result[parseInt(key)] = object[parseInt(key)];
-        return result;
-    }, {});
-};
-var getGrid = function () { return __awaiter(void 0, void 0, void 0, function () {
+var getGame = function () { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
-        grid = sortObject(grid);
-        return [2 /*return*/, Object.values(grid)];
+        return [2 /*return*/, game];
     });
 }); };
-exports.getGrid = getGrid;
-var getGridSlot = function (id) { return __awaiter(void 0, void 0, void 0, function () {
-    var slot;
+exports.getGame = getGame;
+var updateGame = function (newGameInfo) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
-        slot = grid[id];
-        return [2 /*return*/, slot];
+        game = __assign(__assign({}, game), newGameInfo);
+        return [2 /*return*/, game];
     });
 }); };
-exports.getGridSlot = getGridSlot;
-var updateGridSlot = function (slot, newGridSlot) { return __awaiter(void 0, void 0, void 0, function () {
-    var updatedGridSlot;
-    var _a;
-    return __generator(this, function (_b) {
-        if (!grid[slot]) {
-            return [2 /*return*/, []];
-        }
-        updatedGridSlot = (_a = {}, _a[slot] = __assign(__assign({}, grid[slot]), newGridSlot), _a);
-        grid = sortObject(__assign(__assign({}, grid), updatedGridSlot));
-        return [2 /*return*/, Object.values(grid)];
-    });
-}); };
-exports.updateGridSlot = updateGridSlot;
-var updateGrid = function (newGrid) { return __awaiter(void 0, void 0, void 0, function () {
-    var gridObject;
-    return __generator(this, function (_a) {
-        gridObject = {};
-        newGrid.forEach(function (slot, index) {
-            gridObject[index + 1] = __assign({}, slot);
-        });
-        grid = newGrid;
-        return [2 /*return*/, Object.values(grid)];
-    });
-}); };
-exports.updateGrid = updateGrid;
-var clearGrid = function () { return __awaiter(void 0, void 0, void 0, function () {
-    return __generator(this, function (_a) {
-        grid = initialValues;
-        return [2 /*return*/, Object.values(grid)];
-    });
-}); };
-exports.clearGrid = clearGrid;
+exports.updateGame = updateGame;
